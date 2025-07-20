@@ -10,6 +10,10 @@
     color: #fff;
     padding: 20px;
   }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
   .group {
     margin-bottom: 30px;
     padding: 15px;
@@ -20,6 +24,12 @@
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 10px;
+  }
+  .group-title label {
+    cursor: pointer;
+  }
+  .items {
+    margin-left: 25px; /* indent the items */
   }
   label {
     display: block;
@@ -33,26 +43,88 @@
 </head>
 <body>
 
+<h1>You're the last line of defense.</h1>
+
 <div class="group">
-  <div class="group-title">Group 1</div>
-  <label><input type="checkbox"> Item 1.1</label>
-  <label><input type="checkbox"> Item 1.2</label>
-  <label><input type="checkbox"> Item 1.3</label>
+  <div class="group-title">
+    <label><input type="checkbox" class="group-check"> Detail Drawings</label>
+  </div>
+  <div class="items">
+	<label><input type="checkbox" class="item"> Check designs.</label>
+    <label><input type="checkbox" class="item"> Check every number, including dimensions, notes and dates.</label>
+    <label><input type="checkbox" class="item"> Part codes and specs are on point.</label>
+    <label><input type="checkbox" class="item"> Sheets are sorted and with correct orientations.</label>
+	<label><input type="checkbox" class="item"> Sheets are signed and stamped.</label>
+  </div>
 </div>
 
 <div class="group">
-  <div class="group-title">Group 2</div>
-  <label><input type="checkbox"> Item 2.1</label>
-  <label><input type="checkbox"> Item 2.2</label>
-  <label><input type="checkbox"> Item 2.3</label>
+  <div class="group-title">
+    <label><input type="checkbox" class="group-check"> Group 2</label>
+  </div>
+  <div class="items">
+    <label><input type="checkbox" class="item"> Item 2.1</label>
+    <label><input type="checkbox" class="item"> Item 2.2</label>
+    <label><input type="checkbox" class="item"> Item 2.3</label>
+  </div>
 </div>
 
 <div class="group">
-  <div class="group-title">Group 3</div>
-  <label><input type="checkbox"> Item 3.1</label>
-  <label><input type="checkbox"> Item 3.2</label>
-  <label><input type="checkbox"> Item 3.3</label>
+  <div class="group-title">
+    <label><input type="checkbox" class="group-check"> Group 3</label>
+  </div>
+  <div class="items">
+    <label><input type="checkbox" class="item"> Item 3.1</label>
+    <label><input type="checkbox" class="item"> Item 3.2</label>
+    <label><input type="checkbox" class="item"> Item 3.3</label>
+  </div>
 </div>
+
+<div class="group">
+  <div class="group-title">
+    <label><input type="checkbox" class="group-check"> Group 4</label>
+  </div>
+  <div class="items">
+    <label><input type="checkbox" class="item"> Item 4.1</label>
+    <label><input type="checkbox" class="item"> Item 4.2</label>
+    <label><input type="checkbox" class="item"> Item 4.3</label>
+  </div>
+</div>
+
+<script>
+// When an individual item is clicked, check if all/none/some items in the group are checked
+document.querySelectorAll('.group').forEach(group => {
+  const groupCheckbox = group.querySelector('.group-check');
+  const items = group.querySelectorAll('.item');
+
+  function updateGroupCheckbox() {
+    const allChecked = Array.from(items).every(i => i.checked);
+    const noneChecked = Array.from(items).every(i => !i.checked);
+
+    if (allChecked) {
+      groupCheckbox.checked = true;
+      groupCheckbox.indeterminate = false;
+    } else if (noneChecked) {
+      groupCheckbox.checked = false;
+      groupCheckbox.indeterminate = false;
+    } else {
+      groupCheckbox.checked = false;
+      groupCheckbox.indeterminate = true;
+    }
+  }
+
+  items.forEach(item => {
+    item.addEventListener('change', updateGroupCheckbox);
+  });
+
+  // When the group title checkbox is clicked, set all items to that state
+  groupCheckbox.addEventListener('change', () => {
+    const checked = groupCheckbox.checked;
+    groupCheckbox.indeterminate = false;
+    items.forEach(i => i.checked = checked);
+  });
+});
+</script>
 
 </body>
 </html>
